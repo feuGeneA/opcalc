@@ -1,9 +1,35 @@
-clean up memory management
+As a user, I want help text on the expiration input, and all inputs, so I know how to enter my scenario.
 
-check all return codes
+As a user, I want to press Enter on my keyboard to submit the form, so that I don't have to use the mouse, nor tab/space.
 
-validation logic
+As a user, I want to see "the greeks," the delta/theta/vega/gamma by-products of the calculation, so that I can accurately assess the appeal of the described option contract.
 
-corner/edge case and sanity check test cases
+As a user, I want to use different models, besides vanilla Black Scholes, by which to calculate the value of my option.  (Combo box prefixing current interface with model selection. There are various models in QuantLib.)
 
-selenium/html_unit web form tests
+Release version 0.1.
+
+As a developer, I want an automated test of the web page interface, so that I don't have to test it manually.  (Likely use selenium/html_unit.)
+
+As a user, I want a modern (Web 2.0+) look and feel, or at least a field-aligned visual layout. (Move HTML template, from static string in FormView::FormView()'s call to WTemplateFormView::setTemplateText(), to an external file.)
+
+As a user, I want to select an expiration date from a calendar widget, so that I don't have to manually calculate the fraction of the year from now at which the option contract will expire.
+
+Release version 0.2.
+
+As a user, I want more option valuation model choices.
+
+As a system administrator, I don't want memory leaks. (Pointers and new's are used everywhere, modeled after the Wt examples, but there are literally zero delete's, so it seems there are memory leaks. Valgraind )
+
+As a user, I want the form to validate my inputs, and give me useful information on any validation failures, so that when something doesn't work as expected I'll have the information I need to correct my mistake and continue using the product.
+
+Release version 1.0.
+
+As a developer, I want opval.{cpp/h} to be renamed to QuantLib.*, in the spirit of meaningful names.
+
+As a developer, I want `make` to know about my include dependencies, so that I don't get segfaults, for example when you update FormModel.h and don't recompile FormView.cpp. (use GNU autotools? explicitly declare dependencies in Makefile?)
+
+As a developer, I want the code to check all Wt API return codes, so that I know no API is being mis-used or taken for granted.
+
+As a developer, I want a unit test of the OpCalcApplication class, so that I can be confident that that interface works without having to manually test the application. (Possibly use Wt::Test::WTestEnvironment::startRequest(), which according to the doc "Simulates the start of a new request by the main event loop")
+
+As a developer, I want the unit tests to cover more corner/edge case and have more basic sanity checks, so that the code will be less fragile.
