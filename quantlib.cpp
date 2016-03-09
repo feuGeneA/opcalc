@@ -1,4 +1,4 @@
-#include "opval.h"
+#include "quantlib.h"
 
 #include <boost/shared_ptr.hpp>
 
@@ -15,7 +15,7 @@
 
 using namespace QuantLib;
 
-namespace opval {
+namespace quantlib {
 
 QuantLib::Real value(AmericanOptionSpec const& input)
 {

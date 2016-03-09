@@ -24,8 +24,6 @@ As a user, I want the form to validate my inputs, and give me useful information
 
 Release version 1.0.
 
-As a developer, I want opval.{cpp/h} to be renamed to QuantLib.*, in the spirit of meaningful names.
-
 As a developer, I want `make` to know about my include dependencies, so that I don't get segfaults, for example when you update FormModel.h and don't recompile FormView.cpp. (use GNU autotools? explicitly declare dependencies in Makefile?)
 
 As a developer, I want the code to check all Wt API return codes, so that I know no API is being mis-used or taken for granted.

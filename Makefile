@@ -3,8 +3,8 @@ CXXFLAGS=-g -std=c++11 -Wall
 all: test main
 	./test
 
-test: opval.o \
-      opval.t.o \
+test: quantlib.o \
+      quantlib.t.o \
       FormModel.o \
       FormModel.t.o \
       FormView.o \
@@ -17,7 +17,7 @@ test: opval.o \
 		/usr/lib/libgtest_main.a
 		#/usr/lib/libwt.so \
 
-main: main.o opval.o FormView.o FormModel.o
+main: main.o quantlib.o FormView.o FormModel.o
 	$(CXX) $+ -pthread -o main \
 		/usr/lib/libQuantLib.a \
 		/usr/lib/libwt.so \

@@ -1,10 +1,10 @@
-#ifndef OPVAL_INCLUDED_H
-#define OPVAL_INCLUDED_H
+#ifndef QUANTLIB_INCLUDED_H
+#define QUANTLIB_INCLUDED_H
 
 #include <ql/option.hpp>
 #include <ql/types.hpp>
 
-namespace opval {
+namespace quantlib {
 
 struct AmericanOptionSpec {
     QuantLib::Option::Type type;

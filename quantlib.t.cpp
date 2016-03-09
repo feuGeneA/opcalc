@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 
-#include "opval.h"
+#include "quantlib.h"
 
-TEST(opval, valuesFromLiterature)
+TEST(quantlib, valuesFromLiterature)
 {
-    opval::AmericanOptionSpec input;
+    quantlib::AmericanOptionSpec input;
     input.type = QuantLib::Option::Call;
     input.strike = 100;
     input.timeToMaturity = 0.10;
@@ -13,12 +13,12 @@ TEST(opval, valuesFromLiterature)
     input.riskFreeRate = 0.10;
     input.volatility = 0.15;
 
-    EXPECT_NEAR(0.0206, opval::value(input), 3.0e-3);
+    EXPECT_NEAR(0.0206, quantlib::value(input), 3.0e-3);
 }
 
-TEST(opval, valuesFromBloomberg)
+TEST(quantlib, valuesFromBloomberg)
 {
-    opval::AmericanOptionSpec input;
+    quantlib::AmericanOptionSpec input;
     input.type = QuantLib::Option::Put;
     input.strike = 100;
     input.timeToMaturity = 0.10;
@@ -27,5 +27,5 @@ TEST(opval, valuesFromBloomberg)
     input.riskFreeRate = 0.10;
     input.volatility = 0.15;
 
-    EXPECT_NEAR(10.02, opval::value(input), 2.1e-2);
+    EXPECT_NEAR(10.02, quantlib::value(input), 2.1e-2);
 }

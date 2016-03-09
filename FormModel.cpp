@@ -6,7 +6,7 @@
 #include <Wt/WDoubleValidator>
 #include <Wt/WStringListModel>
 
-#include "opval.h"
+#include "quantlib.h"
 
 const Wt::WFormModel::Field FormModel::SpotField="spot";
 const Wt::WFormModel::Field FormModel::DividendField="dividend";
@@ -82,7 +82,7 @@ Wt::WString FormModel::label(Field field) const
 
 void FormModel::calculate()
 {
-    opval::AmericanOptionSpec spec;
+    quantlib::AmericanOptionSpec spec;
     spec.spot   = boost::any_cast<double>(value(  SpotField));
     spec.strike = boost::any_cast<double>(value(StrikeField));
 
@@ -97,5 +97,5 @@ void FormModel::calculate()
     spec.riskFreeRate = boost::any_cast<double>(value(InterestField));
     spec.volatility = boost::any_cast<double>(value(VolatilityField));
 
-    setValue(ResultField, double(opval::value(spec)));
+    setValue(ResultField, double(quantlib::value(spec)));
 }
