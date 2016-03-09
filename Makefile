@@ -1,4 +1,4 @@
-CXXFLAGS=-g -std=c++11
+CXXFLAGS=-g -std=c++11 -Wall
 
 all: test main
 	./test

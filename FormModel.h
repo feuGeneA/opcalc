@@ -3,8 +3,7 @@
 
 #include <Wt/WFormModel>
 #include <Wt/WString>
-
-namespace Wt { class WStringListModel; }
+#include <Wt/WStringListModel>
 
 class FormModel : public Wt::WFormModel
 {
@@ -14,7 +13,7 @@ public:
          DividendField,
          InterestField,
        VolatilityField,
-          //CallPutField,
+          CallPutField,
            StrikeField,
              TermField,
            ResultField;
@@ -25,7 +24,29 @@ public:
 
     void calculate();
 
-    //Wt::WStringListModel * callputModel;
+private:
+    class CallPutModel : public Wt::WStringListModel
+    {
+    public:
+        CallPutModel();
+
+        Wt::WModelIndex index(Wt::WString target) const
+        {
+            std::vector<Wt::WString>::const_iterator
+                pTarget = std::find(stringList().begin(),
+                                    stringList().end  (), target);
+
+            if ( pTarget == stringList().end() )
+                return Wt::WModelIndex(); // invalid index
+
+            return createIndex(
+                std::distance(stringList().begin(), pTarget),0,(void*)0);
+        }
+    };
+
+public:
+
+    CallPutModel * callPutModel;
 };
 
-#endif
+ #endif

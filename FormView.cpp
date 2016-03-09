@@ -1,5 +1,7 @@
 #include "FormView.h"
 
+#include <iostream> // TODO: delete me
+
 #include <Wt/WApplication>
 #include <Wt/WComboBox>
 #include <Wt/WContainerWidget>
@@ -12,6 +14,7 @@
 
 FormView::FormView( Wt::WContainerWidget * parent )
     : WTemplateFormView(parent),
+      model(new FormModel(this)),
             spotEdit(new Wt::WDoubleSpinBox),
         dividendEdit(new Wt::WDoubleSpinBox),
         interestEdit(new Wt::WDoubleSpinBox),
@@ -19,8 +22,7 @@ FormView::FormView( Wt::WContainerWidget * parent )
           strikeEdit(new Wt::WDoubleSpinBox),
             termEdit(new Wt::WDoubleSpinBox),
           resultEdit(new Wt::WDoubleSpinBox),
-      //callputInput(new Wt::WComboBox),
-      model(new FormModel(this))
+        callputInput(new Wt::WComboBox)
 {
     //model = new FormModel(/*app.log("info"),*/ this);
 
@@ -37,8 +39,8 @@ FormView::FormView( Wt::WContainerWidget * parent )
         "<label for=\"${id:volatility}\">${volatility-label}</label>"
         "${volatility} ${volatility-info}<br/>"
 
-        //"<label for=\"${id:callput}\">${callput-label}</label>"
-        //"${callput} ${callput-info}<br/>"
+        "<label for=\"${id:callput}\">${callput-label}</label>"
+        "${callput} ${callput-info}<br/>"
 
         "<label for=\"${id:strike}\">${strike-label}</label>"
         "${strike} ${strike-info}<br/>"
@@ -60,7 +62,21 @@ FormView::FormView( Wt::WContainerWidget * parent )
 
     setFormWidget(FormModel::ResultField, resultEdit);
 
-    updateModel(model.get());
+    callputInput->setModel(model->callPutModel);
+    callputInput->setCurrentIndex(0);
+    setFormWidget(FormModel::CallPutField, callputInput,
+        [=] () { // updateViewValue
+            // model never changes independent of view. no-op.
+        },
+        [=] () { // updateModelValue
+            model->setValue(
+                FormModel::CallPutField,
+                static_cast<std::string>(
+                    model->callPutModel->stringList()[
+                        callputInput->currentIndex() ].narrow() ) );
+        } );
+
+    updateModel(model);
         // WHY do I need this call?
         // ValidationModel example doesn't have it here.
         // but if I don't have it then the log says
@@ -69,16 +85,13 @@ FormView::FormView( Wt::WContainerWidget * parent )
         // into the widget's updateViewValue lambda specified in
         // setDoubleWidget.
 
-    //callputInput->setModel(model->callputModel);
-    //setFormWidget(FormModel::CallPutField, callputInput);
-
     Wt::WPushButton * submitButton
         = new Wt::WPushButton("Calculate");
     bindWidget("submit-button", submitButton);
     bindString("submit-info", Wt::WString());
     submitButton->clicked().connect(this, &FormView::calculate);
 
-    updateView(model.get());
+    updateView(model);
 }
 
 void FormView::setDoubleWidget(
@@ -103,7 +116,7 @@ void FormView::setDoubleWidget(
 
 void FormView::calculate()
 {
-    updateModel(model.get());
+    updateModel(model);
     if ( model->validate() ) model->calculate();
     else
     {
@@ -121,5 +134,5 @@ void FormView::calculate()
         }
         bindString("submit-info",validationMsg);
     }
-    updateView(model.get());
+    updateView(model);
 }
