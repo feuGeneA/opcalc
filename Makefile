@@ -2,7 +2,6 @@ CXXFLAGS=-g -std=c++11
 
 all: test main
 	./test
-	./main --docroot . --http-addr 0.0.0.0 --http-port 8080
 
 test: opval.o \
       opval.t.o \
