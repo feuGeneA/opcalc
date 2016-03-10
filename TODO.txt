@@ -1,5 +1,7 @@
 As a user, I want help text on the expiration input, and all inputs, so I know how to enter my scenario.
 
+As a user, I want to know what option valuation models are being used, in order to know how much faith to put in the calculation.
+
 As a user, I want to press Enter on my keyboard to submit the form, so that I don't have to use the mouse, nor tab/space.
 
 As a user, I want to see "the greeks," the delta/theta/vega/gamma by-products of the calculation, so that I can accurately assess the appeal of the described option contract.
