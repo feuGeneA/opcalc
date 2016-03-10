@@ -1,5 +1,3 @@
-As a user, I want help text on the expiration input, and all inputs, so I know how to enter my scenario.
-
 As a user, I want to know what option valuation models are being used, in order to know how much faith to put in the calculation.
 
 As a user, I want to press Enter on my keyboard to submit the form, so that I don't have to use the mouse, nor tab/space.
@@ -21,6 +19,8 @@ Release version 0.2.
 As a user, I want more option valuation model choices.
 
 As a system administrator, I don't want memory leaks. (Pointers and new's are used everywhere, modeled after the Wt examples, but there are literally zero delete's, so it seems there are memory leaks. Valgraind )
+
+As a user, I don't want the help text to disappear when I submit the form, so that I can refer back to it again without refreshing the page.
 
 As a user, I want the form to validate my inputs, and give me useful information on any validation failures, so that when something doesn't work as expected I'll have the information I need to correct my mistake and continue using the product.
 

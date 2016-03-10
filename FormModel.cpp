@@ -38,21 +38,27 @@ FormModel::FormModel(
     v->setBottom(0);
     v->setMandatory(true);
 
-    for ( auto const& f :
-        { SpotField, DividendField, InterestField, VolatilityField,
-          StrikeField, TermField } )
-    {
-        addField(f);
-        //setValidator(f, v);
-        setValue(f, double());
-    }
+    addField(SpotField, "Current price of the underlying stock");
+
+    addField(DividendField, "Annual rate of dividend payout for the"
+        " stock; for 1% enter 0.01");
+
+    addField(InterestField, "Annual rate of risk-free interest; for 1%"
+        " enter 0.01");
+
+    addField(VolatilityField, "Volatility of the price of the underlying"
+        " stock; for 1% enter 0.01");
 
     addField(CallPutField);
-    setValue(CallPutField, std::string("Call"));
+
+    addField(StrikeField, "Exercise price of the option");
+
+    addField(TermField, "Expiration term of the option, expressed as a"
+        " fraction of a year; for 6 months, enter 0.5");
 
     addField(ResultField);
     setReadOnly(ResultField, true);
-    setValue(ResultField, double());
+    //setValue(ResultField, double());
 }
 
 Wt::WString FormModel::label(Field field) const
