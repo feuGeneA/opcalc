@@ -1,7 +1,6 @@
 #include <Wt/WApplication>
 #include <Wt/WText>
 
-#include "opval.h"
 #include "FormView.h"
 
 class OpCalcApplication : public Wt::WApplication

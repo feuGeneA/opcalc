@@ -4,6 +4,8 @@
 #include <ql/option.hpp>
 #include <ql/types.hpp>
 
+// namespace to contain our abstractions to encapsulate the QuantLib
+// symbols. lower case to differentiate.
 namespace quantlib {
 
 struct AmericanOptionSpec {
