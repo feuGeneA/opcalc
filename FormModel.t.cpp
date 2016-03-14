@@ -17,7 +17,7 @@ TEST(FormModel, instantiation)
 TEST(FormModel, valuesFromLiterature)
 {
     FormModel model(NULL);
-    ASSERT_EQ(8, model.fields().size());
+    ASSERT_EQ(10, model.fields().size());
     ASSERT_EQ(2, model.callPutModel->stringList().size());
 
     double spot = 90,

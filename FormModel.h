@@ -9,6 +9,8 @@ class FormModel : public Wt::WFormModel
 {
 public:
     static const Field
+           EngineField,
+          ProcessField,
              SpotField,
          DividendField,
          InterestField,
