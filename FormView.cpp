@@ -15,6 +15,8 @@
 FormView::FormView( Wt::WContainerWidget * parent )
     : WTemplateFormView(parent),
       model(new FormModel(this)),
+       engineField(new Wt::WLineEdit),
+      processField(new Wt::WLineEdit),
             spotEdit(new Wt::WDoubleSpinBox),
         dividendEdit(new Wt::WDoubleSpinBox),
         interestEdit(new Wt::WDoubleSpinBox),
@@ -27,6 +29,12 @@ FormView::FormView( Wt::WContainerWidget * parent )
     //model = new FormModel(/*app.log("info"),*/ this);
 
     setTemplateText(
+        "<label for=\"${id:engine}\">${engine-label}</label>"
+        "${engine} ${engine-info}<br/>"
+
+        "<label for=\"${id:model}\">${model-label}</label>"
+        "${model} ${model-info}<br/>"
+
         "<label for=\"${id:spot}\">${spot-label}</label>"
         "${spot} ${spot-info}<br/>"
 
@@ -53,6 +61,12 @@ FormView::FormView( Wt::WContainerWidget * parent )
         "<label for=\"${id:result}\">${result-label}</label>"
         "${result}" );
 
+    setFormWidget(FormModel::EngineField, engineField);
+    engineField->setTextSize(50);
+
+    setFormWidget(FormModel::ProcessField, processField);
+    processField->setTextSize(50);
+
     setDoubleWidget(FormModel::SpotField, spotEdit);
     setDoubleWidget(FormModel::DividendField, dividendEdit);
     setDoubleWidget(FormModel::InterestField, interestEdit);
@@ -75,15 +89,6 @@ FormView::FormView( Wt::WContainerWidget * parent )
                     model->callPutModel->stringList()[
                         callputInput->currentIndex() ].narrow() ) );
         } );
-
-    updateModel(model);
-        // WHY do I need this call?
-        // ValidationModel example doesn't have it here.
-        // but if I don't have it then the log says
-        // boost::bad_any_cast: failed conversion using boost::any_cast
-        // when the updateView call below is made, because it's calling
-        // into the widget's updateViewValue lambda specified in
-        // setDoubleWidget.
 
     Wt::WPushButton * submitButton
         = new Wt::WPushButton("Calculate");

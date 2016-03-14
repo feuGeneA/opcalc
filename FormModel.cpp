@@ -8,6 +8,8 @@
 
 #include "quantlib.h"
 
+const Wt::WFormModel::Field FormModel::EngineField="engine";
+const Wt::WFormModel::Field FormModel::ProcessField="model";
 const Wt::WFormModel::Field FormModel::SpotField="spot";
 const Wt::WFormModel::Field FormModel::DividendField="dividend";
 const Wt::WFormModel::Field FormModel::InterestField="interest";
@@ -38,27 +40,48 @@ FormModel::FormModel(
     v->setBottom(0);
     v->setMandatory(true);
 
+    addField(EngineField);
+    // from QuantLib doxygen page BaroneAdesiWhaleyApproximationEngine
+    // Class Reference:
+    setValue(EngineField, "Barone-Adesi and Whaley pricing engine for"
+        " American options (1987)");
+    setReadOnly(EngineField, true);
+
+    addField(ProcessField);
+    // from QuantLib doxygen page BlackScholesMertonProcess Class
+    // Reference:
+    setValue(ProcessField, "Merton (1973) extension to the Black-Scholes"
+        " stochastic process");
+    setReadOnly(ProcessField, true);
+
     addField(SpotField, "Current price of the underlying stock");
+    setValue(SpotField, double(90));
 
     addField(DividendField, "Annual rate of dividend payout for the"
         " stock; for 1% enter 0.01");
+    setValue(DividendField, double(0.1));
 
     addField(InterestField, "Annual rate of risk-free interest; for 1%"
         " enter 0.01");
+    setValue(InterestField, double(0.1));
 
     addField(VolatilityField, "Volatility of the price of the underlying"
         " stock; for 1% enter 0.01");
+    setValue(VolatilityField, double(0.15));
 
     addField(CallPutField);
+    setValue(CallPutField, "Call");
 
     addField(StrikeField, "Exercise price of the option");
+    setValue(StrikeField, double(100));
 
     addField(TermField, "Expiration term of the option, expressed as a"
         " fraction of a year; for 6 months, enter 0.5");
+    setValue(TermField, double(0.1));
 
     addField(ResultField);
     setReadOnly(ResultField, true);
-    //setValue(ResultField, double());
+    setValue(ResultField, double());
 }
 
 Wt::WString FormModel::label(Field field) const
@@ -72,6 +95,8 @@ Wt::WString FormModel::label(Field field) const
         strikeLabel("Strike:"),
         termLabel("Term:"),
         resultLabel("Result:"),
+        engineLabel("Approximation engine:"),
+        processLabel("Stochastic process:"),
         unknown("FormModel::label doesn't know what to return for "
                 "field "+std::string(field));
 
@@ -83,6 +108,8 @@ Wt::WString FormModel::label(Field field) const
     if ( field==    StrikeField ) return     strikeLabel;
     if ( field==      TermField ) return       termLabel;
     if ( field==    ResultField ) return     resultLabel;
+    if ( field==    EngineField ) return     engineLabel;
+    if ( field==   ProcessField ) return    processLabel;
     return unknown;
 }
 

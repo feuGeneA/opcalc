@@ -15,6 +15,9 @@ public:
     void calculate();
 private:
     FormModel * model;
+
+    Wt::WLineEdit *engineField, *processField;
+
     Wt::WDoubleSpinBox *spotEdit, *dividendEdit, *interestEdit,
         *volatilityEdit, *strikeEdit, *termEdit, *resultEdit;
 
