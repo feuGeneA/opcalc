@@ -22,11 +22,9 @@ const Wt::WFormModel::Field FormModel::ResultField="result";
 FormModel::CallPutModel::CallPutModel()
 {
     addString ("Call");
-    //setData(0,0, "Call");
     setData(0,0, QuantLib::Option::Call, Wt::ItemDataRole::UserRole);
 
     addString ("Put");
-    //setData(1,0, "Put");
     setData(1,0, QuantLib::Option::Put, Wt::ItemDataRole::UserRole);
 }
 
@@ -34,7 +32,6 @@ FormModel::FormModel(
     Wt::WObject  * parent )
     : Wt::WFormModel(parent),
       callPutModel(new CallPutModel())
-      //log(logStream)
 {
     Wt::WDoubleValidator *v = new Wt::WDoubleValidator();
     v->setBottom(0);
