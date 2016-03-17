@@ -12,13 +12,96 @@
 TEST(FormModel, instantiation)
 {
     FormModel model(NULL);
+    ASSERT_EQ(10, model.fields().size());
+    ASSERT_EQ(2, model.callPutModel->stringList().size());
+}
+
+TEST(FormModel, spotFieldSticks)
+{
+    double value=100;
+    FormModel model(NULL);
+    model.setValue(FormModel::SpotField, double(value));
+    ASSERT_EQ(
+        value,
+        boost::any_cast<double>(
+            model.value(FormModel::SpotField) ) );
+}
+
+TEST(FormModel, dividendFieldSticks)
+{
+    double value=0.3;
+    FormModel model(NULL);
+    model.setValue(FormModel::DividendField, value);
+    ASSERT_EQ(
+        value,
+        boost::any_cast<double>(
+            model.value(FormModel::DividendField) ) );
+}
+
+TEST(FormModel, interestFieldSticks)
+{
+    double value=0.02;
+    FormModel model(NULL);
+    model.setValue(FormModel::InterestField, value);
+    ASSERT_EQ(
+        value,
+        boost::any_cast<double>(
+            model.value(FormModel::InterestField) ) );
+}
+
+TEST(FormModel, volatilityFieldSticks)
+{
+    double value=0.3;
+    FormModel model(NULL);
+    model.setValue(FormModel::VolatilityField, value);
+    ASSERT_EQ(
+        value,
+        boost::any_cast<double>(
+            model.value(FormModel::VolatilityField) ) );
+}
+
+TEST(FormModel, strikeFieldSticks)
+{
+    double value=125;
+    FormModel model(NULL);
+    model.setValue(FormModel::StrikeField, value);
+    ASSERT_EQ(
+        value,
+        boost::any_cast<double>(
+            model.value(FormModel::StrikeField) ) );
+}
+
+TEST(FormModel, termFieldSticks)
+{
+    double value=0.5;
+    FormModel model(NULL);
+    model.setValue(FormModel::TermField, value);
+    ASSERT_EQ(
+        value,
+        boost::any_cast<double>(
+            model.value(FormModel::TermField) ) );
+}
+
+TEST(FormModel, callPutFieldSticks)
+{
+    FormModel model(NULL);
+
+    model.setValue(FormModel::CallPutField, std::string("Call"));
+    ASSERT_EQ(
+        std::string("Call"),
+        boost::any_cast<std::string>(
+            model.value(FormModel::CallPutField) ) );
+
+    model.setValue(FormModel::CallPutField, std::string("Put"));
+    ASSERT_EQ(
+        std::string("Put"),
+        boost::any_cast<std::string>(
+            model.value(FormModel::CallPutField) ) );
 }
 
 TEST(FormModel, valuesFromLiterature)
 {
     FormModel model(NULL);
-    ASSERT_EQ(10, model.fields().size());
-    ASSERT_EQ(2, model.callPutModel->stringList().size());
 
     double spot = 90,
            dividend = 0.1,
@@ -28,46 +111,12 @@ TEST(FormModel, valuesFromLiterature)
            term = 0.1;
 
     model.setValue(FormModel::SpotField, double(spot));
-    ASSERT_EQ(
-        spot,
-        boost::any_cast<double>(
-            model.value(FormModel::SpotField) ) );
-
     model.setValue(FormModel::DividendField, dividend);
-    ASSERT_EQ(
-        dividend,
-        boost::any_cast<double>(
-            model.value(FormModel::DividendField) ) );
-
     model.setValue(FormModel::InterestField, interest);
-    ASSERT_EQ(
-        interest,
-        boost::any_cast<double>(
-            model.value(FormModel::InterestField) ) );
-
     model.setValue(FormModel::VolatilityField, volatility);
-    ASSERT_EQ(
-        volatility,
-        boost::any_cast<double>(
-            model.value(FormModel::VolatilityField) ) );
-
     model.setValue(FormModel::StrikeField, strike);
-    ASSERT_EQ(
-        strike,
-        boost::any_cast<double>(
-            model.value(FormModel::StrikeField) ) );
-
     model.setValue(FormModel::TermField, term);
-    ASSERT_EQ(
-        term,
-        boost::any_cast<double>(
-            model.value(FormModel::TermField) ) );
-
     model.setValue(FormModel::CallPutField, std::string("Call"));
-    ASSERT_EQ(
-        std::string("Call"),
-        boost::any_cast<std::string>(
-            model.value(FormModel::CallPutField) ) );
 
     EXPECT_TRUE(model.validate());
     EXPECT_TRUE(model.valid());

@@ -136,4 +136,3 @@ TEST(FormView, valuesFromBloomberg)
             )->value(),
         2.1e-2);
 }
-
