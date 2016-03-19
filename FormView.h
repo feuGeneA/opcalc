@@ -16,12 +16,12 @@ public:
 private:
     FormModel * model;
 
-    Wt::WLineEdit *engineField, *processField;
+    Wt::WLineEdit *processField;
 
     Wt::WDoubleSpinBox *spotEdit, *dividendEdit, *interestEdit,
         *volatilityEdit, *strikeEdit, *termEdit, *resultEdit;
 
-    Wt::WComboBox *callputInput;
+    Wt::WComboBox *engineInput, *callputInput;
 
     void setDoubleWidget(Wt::WFormModel::Field, Wt::WDoubleSpinBox*);
 };

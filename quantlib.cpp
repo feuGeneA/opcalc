@@ -8,6 +8,7 @@
 #include <ql/instruments/vanillaoption.hpp>
 #include <ql/option.hpp>
 #include <ql/pricingengines/vanilla/baroneadesiwhaleyengine.hpp>
+#include <ql/pricingengines/vanilla/fdamericanengine.hpp>
 #include <ql/termstructures/yield/flatforward.hpp>
 #include <ql/termstructures/volatility/equityfx/blackconstantvol.hpp>
 #include <ql/time/daycounters/actual360.hpp>
@@ -17,7 +18,8 @@ using namespace QuantLib;
 
 namespace quantlib {
 
-QuantLib::Real value(AmericanOptionSpec const& input)
+QuantLib::Real value(std::string        const& engine,
+                     AmericanOptionSpec const& input)
 {
     Date today = Date::todaysDate();
     DayCounter dc = Actual360();
@@ -68,11 +70,21 @@ QuantLib::Real value(AmericanOptionSpec const& input)
             Handle<YieldTermStructure>(riskFreeRateTermStruct),
             Handle<BlackVolTermStructure>(volTS)));
 
-    boost::shared_ptr<PricingEngine> engine(
-                  new BaroneAdesiWhaleyApproximationEngine(stochProcess));
+    boost::shared_ptr<PricingEngine> pEngine;
+
+    if ( engine == "BaroneAdesiWhaley" )
+        pEngine =
+            boost::shared_ptr<PricingEngine>(
+                new BaroneAdesiWhaleyApproximationEngine(stochProcess));
+    else if ( engine == "FDAmericanCrankNicolson" )
+        pEngine =
+            boost::shared_ptr<PricingEngine>(
+                new FDAmericanEngine<CrankNicolson>(stochProcess));
+    else
+        throw std::runtime_error("Unknown engine type '"+engine+"'");
 
     VanillaOption option(payoff, exercise);
-    option.setPricingEngine(engine);
+    option.setPricingEngine(pEngine);
 
     return option.NPV();
 }

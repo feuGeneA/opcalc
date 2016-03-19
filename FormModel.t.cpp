@@ -16,6 +16,18 @@ TEST(FormModel, instantiation)
     ASSERT_EQ(2, model.callPutModel->stringList().size());
 }
 
+TEST(FormModel, engineFieldSticks)
+{
+    FormModel model(NULL);
+    model.setValue(
+        FormModel::EngineField,
+        model.engineModel->stringList()[0]);
+    ASSERT_EQ(
+        model.engineModel->stringList()[0],
+        boost::any_cast<Wt::WString>(
+            model.value(FormModel::EngineField) ) );
+}
+
 TEST(FormModel, spotFieldSticks)
 {
     double value=100;

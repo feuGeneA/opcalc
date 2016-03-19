@@ -18,7 +18,8 @@ struct AmericanOptionSpec {
     QuantLib::Volatility   volatility;
 };
 
-QuantLib::Real value(AmericanOptionSpec const& input);
+QuantLib::Real value(std::string        const& engine,
+                     AmericanOptionSpec const& input);
 
 }
 

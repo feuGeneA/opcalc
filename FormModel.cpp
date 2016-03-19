@@ -19,30 +19,34 @@ const Wt::WFormModel::Field FormModel::StrikeField="strike";
 const Wt::WFormModel::Field FormModel::TermField="term";
 const Wt::WFormModel::Field FormModel::ResultField="result";
 
-FormModel::CallPutModel::CallPutModel()
-{
-    addString ("Call");
-    setData(0,0, QuantLib::Option::Call, Wt::ItemDataRole::UserRole);
-
-    addString ("Put");
-    setData(1,0, QuantLib::Option::Put, Wt::ItemDataRole::UserRole);
-}
-
 FormModel::FormModel(
     Wt::WObject  * parent )
     : Wt::WFormModel(parent),
-      callPutModel(new CallPutModel())
+      engineModel(new StringSetModel()),
+      callPutModel(new StringSetModel())
 {
+    callPutModel->addString("Call");
+    callPutModel->setData(0,0, QuantLib::Option::Call, Wt::ItemDataRole::UserRole);
+
+    callPutModel->addString("Put");
+    callPutModel->setData(1,0, QuantLib::Option::Put, Wt::ItemDataRole::UserRole);
+
+    // from QuantLib doxygen page BaroneAdesiWhaleyApproximationEngine
+    // Class Reference:
+    engineModel->addString("Barone-Adesi and Whaley pricing engine for"
+        " American options (1987)");
+    engineModel->setData(0,0, "BaroneAdesiWhaley", Wt::ItemDataRole::UserRole);
+
+    engineModel->addString("Finite Differences with Crank-Nicolson scheme");
+    engineModel->setData(1,0, "FDAmericanCrankNicolson",
+        Wt::ItemDataRole::UserRole);
+
+    addField(EngineField);
+    setValue(EngineField, engineModel->stringList()[0]);
+
     Wt::WDoubleValidator *v = new Wt::WDoubleValidator();
     v->setBottom(0);
     v->setMandatory(true);
-
-    addField(EngineField);
-    // from QuantLib doxygen page BaroneAdesiWhaleyApproximationEngine
-    // Class Reference:
-    setValue(EngineField, "Barone-Adesi and Whaley pricing engine for"
-        " American options (1987)");
-    setReadOnly(EngineField, true);
 
     addField(ProcessField);
     // from QuantLib doxygen page BlackScholesMertonProcess Class
@@ -127,5 +131,20 @@ void FormModel::calculate()
     spec.riskFreeRate = boost::any_cast<double>(value(InterestField));
     spec.volatility = boost::any_cast<double>(value(VolatilityField));
 
-    setValue(ResultField, double(quantlib::value(spec)));
+    setValue(
+        ResultField,
+        double(
+            quantlib::value(
+                boost::any_cast<const char*>(
+                    engineModel->data(
+                        engineModel->index(
+                            boost::any_cast<Wt::WString>(value(EngineField))
+                        ),
+                        Wt::ItemDataRole::UserRole
+                    )
+                ),
+                spec
+            )
+        )
+    );
 }

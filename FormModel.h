@@ -27,11 +27,9 @@ public:
     void calculate();
 
 private:
-    class CallPutModel : public Wt::WStringListModel
+    class StringSetModel : public Wt::WStringListModel
     {
     public:
-        CallPutModel();
-
         Wt::WModelIndex index(Wt::WString target) const
         {
             std::vector<Wt::WString>::const_iterator
@@ -48,7 +46,7 @@ private:
 
 public:
 
-    CallPutModel * callPutModel;
+    StringSetModel *engineModel, *callPutModel;
 };
 
  #endif

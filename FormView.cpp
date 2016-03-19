@@ -15,7 +15,6 @@
 FormView::FormView( Wt::WContainerWidget * parent )
     : WTemplateFormView(parent),
       model(new FormModel(this)),
-       engineField(new Wt::WLineEdit),
       processField(new Wt::WLineEdit),
             spotEdit(new Wt::WDoubleSpinBox),
         dividendEdit(new Wt::WDoubleSpinBox),
@@ -24,6 +23,7 @@ FormView::FormView( Wt::WContainerWidget * parent )
           strikeEdit(new Wt::WDoubleSpinBox),
             termEdit(new Wt::WDoubleSpinBox),
           resultEdit(new Wt::WDoubleSpinBox),
+         engineInput(new Wt::WComboBox),
         callputInput(new Wt::WComboBox)
 {
     //model = new FormModel(/*app.log("info"),*/ this);
@@ -61,8 +61,19 @@ FormView::FormView( Wt::WContainerWidget * parent )
         "<label for=\"${id:result}\">${result-label}</label>"
         "${result}" );
 
-    setFormWidget(FormModel::EngineField, engineField);
-    engineField->setTextSize(50);
+    engineInput->setModel(model->engineModel);
+    engineInput->setCurrentIndex(0);
+    setFormWidget(FormModel::EngineField, engineInput,
+        [=]() { // updateViewValue
+            // model never changes independent of view. no-op.
+        },
+        [=]() { // updateModelValue
+            model->setValue(
+                FormModel::EngineField,
+                static_cast<Wt::WString>(
+                    model->engineModel->stringList()[
+                        engineInput->currentIndex() ] ) );
+        } );
 
     setFormWidget(FormModel::ProcessField, processField);
     processField->setTextSize(50);
