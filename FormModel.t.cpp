@@ -11,7 +11,7 @@
 
 TEST(FormModel, instantiation)
 {
-    FormModel model(NULL);
+    FormModel model(nullptr);
     ASSERT_EQ(10, model.fields().size());
     ASSERT_EQ(2, model.callPutModel->stringList().size());
 }
@@ -19,7 +19,7 @@ TEST(FormModel, instantiation)
 TEST(FormModel, spotFieldSticks)
 {
     double value=100;
-    FormModel model(NULL);
+    FormModel model(nullptr);
     model.setValue(FormModel::SpotField, double(value));
     ASSERT_EQ(
         value,
@@ -30,7 +30,7 @@ TEST(FormModel, spotFieldSticks)
 TEST(FormModel, dividendFieldSticks)
 {
     double value=0.3;
-    FormModel model(NULL);
+    FormModel model(nullptr);
     model.setValue(FormModel::DividendField, value);
     ASSERT_EQ(
         value,
@@ -41,7 +41,7 @@ TEST(FormModel, dividendFieldSticks)
 TEST(FormModel, interestFieldSticks)
 {
     double value=0.02;
-    FormModel model(NULL);
+    FormModel model(nullptr);
     model.setValue(FormModel::InterestField, value);
     ASSERT_EQ(
         value,
@@ -52,7 +52,7 @@ TEST(FormModel, interestFieldSticks)
 TEST(FormModel, volatilityFieldSticks)
 {
     double value=0.3;
-    FormModel model(NULL);
+    FormModel model(nullptr);
     model.setValue(FormModel::VolatilityField, value);
     ASSERT_EQ(
         value,
@@ -63,7 +63,7 @@ TEST(FormModel, volatilityFieldSticks)
 TEST(FormModel, strikeFieldSticks)
 {
     double value=125;
-    FormModel model(NULL);
+    FormModel model(nullptr);
     model.setValue(FormModel::StrikeField, value);
     ASSERT_EQ(
         value,
@@ -74,7 +74,7 @@ TEST(FormModel, strikeFieldSticks)
 TEST(FormModel, termFieldSticks)
 {
     double value=0.5;
-    FormModel model(NULL);
+    FormModel model(nullptr);
     model.setValue(FormModel::TermField, value);
     ASSERT_EQ(
         value,
@@ -84,7 +84,7 @@ TEST(FormModel, termFieldSticks)
 
 TEST(FormModel, callPutFieldSticks)
 {
-    FormModel model(NULL);
+    FormModel model(nullptr);
 
     model.setValue(FormModel::CallPutField, std::string("Call"));
     ASSERT_EQ(
@@ -101,7 +101,7 @@ TEST(FormModel, callPutFieldSticks)
 
 TEST(FormModel, valuesFromLiterature)
 {
-    FormModel model(NULL);
+    FormModel model(nullptr);
 
     double spot = 90,
            dividend = 0.1,
@@ -131,7 +131,7 @@ TEST(FormModel, valuesFromLiterature)
 
 TEST(FormModel, valuesFromBloomberg)
 {
-    FormModel model(NULL);
+    FormModel model(nullptr);
 
     double spot = 90,
            dividend = 0.1,
