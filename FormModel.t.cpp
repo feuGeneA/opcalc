@@ -152,6 +152,10 @@ TEST(FormModel, valuesFromBloomberg)
            strike = 100,
            term = 0.1;
 
+    model.setValue(
+        FormModel::EngineField,
+        Wt::WString("Finite-differences pricing engine for American one asset"
+            " options, using Crank-Nicolson scheme"));
     model.setValue(FormModel::SpotField, double(spot));
     model.setValue(FormModel::DividendField, dividend);
     model.setValue(FormModel::InterestField, interest);

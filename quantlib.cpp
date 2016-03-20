@@ -8,7 +8,9 @@
 #include <ql/instruments/vanillaoption.hpp>
 #include <ql/option.hpp>
 #include <ql/pricingengines/vanilla/baroneadesiwhaleyengine.hpp>
+#include <ql/pricingengines/vanilla/bjerksundstenslandengine.hpp>
 #include <ql/pricingengines/vanilla/fdamericanengine.hpp>
+#include <ql/pricingengines/vanilla/fddividendamericanengine.hpp>
 #include <ql/termstructures/yield/flatforward.hpp>
 #include <ql/termstructures/volatility/equityfx/blackconstantvol.hpp>
 #include <ql/time/daycounters/actual360.hpp>
@@ -80,6 +82,14 @@ QuantLib::Real value(std::string        const& engine,
         pEngine =
             boost::shared_ptr<PricingEngine>(
                 new FDAmericanEngine<CrankNicolson>(stochProcess));
+    else if ( engine == "FDDividendAmericanCrankNicolson" )
+        pEngine =
+            boost::shared_ptr<PricingEngine>(
+                new FDDividendAmericanEngine<CrankNicolson>(stochProcess));
+    else if ( engine == "BjerksundStensland" )
+        pEngine =
+            boost::shared_ptr<PricingEngine>(
+                new BjerksundStenslandApproximationEngine(stochProcess));
     else
         throw std::runtime_error("Unknown engine type '"+engine+"'");
 

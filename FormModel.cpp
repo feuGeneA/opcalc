@@ -31,14 +31,27 @@ FormModel::FormModel(
     callPutModel->addString("Put");
     callPutModel->setData(1,0, QuantLib::Option::Put, Wt::ItemDataRole::UserRole);
 
-    // from QuantLib doxygen page BaroneAdesiWhaleyApproximationEngine
-    // Class Reference:
+    // from QuantLib doxygen:
     engineModel->addString("Barone-Adesi and Whaley pricing engine for"
         " American options (1987)");
     engineModel->setData(0,0, "BaroneAdesiWhaley", Wt::ItemDataRole::UserRole);
 
-    engineModel->addString("Finite Differences with Crank-Nicolson scheme");
+    // from QuantLib doxygen:
+    engineModel->addString("Finite-differences pricing engine for American"
+        " one asset options, using Crank-Nicolson scheme");
     engineModel->setData(1,0, "FDAmericanCrankNicolson",
+        Wt::ItemDataRole::UserRole);
+
+    // from QuantLib doxygen:
+    engineModel->addString("Finite-differences pricing engine for dividend"
+        " American options, using Crank-Nicolson scheme");
+    engineModel->setData(2,0, "FDDividendAmericanCrankNicolson",
+        Wt::ItemDataRole::UserRole);
+
+    // from QuantLib doxygen:
+    engineModel->addString("Bjerksund and Stensland pricing engine for"
+        " American options (1993)");
+    engineModel->setData(3,0, "BjerksundStensland",
         Wt::ItemDataRole::UserRole);
 
     addField(EngineField);
@@ -49,8 +62,7 @@ FormModel::FormModel(
     v->setMandatory(true);
 
     addField(ProcessField);
-    // from QuantLib doxygen page BlackScholesMertonProcess Class
-    // Reference:
+    // from QuantLib doxygen:
     setValue(ProcessField, "Merton (1973) extension to the Black-Scholes"
         " stochastic process");
     setReadOnly(ProcessField, true);
