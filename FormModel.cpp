@@ -23,6 +23,7 @@ FormModel::FormModel(
     Wt::WObject  * parent )
     : Wt::WFormModel(parent),
       engineModel(new StringSetModel()),
+      processModel(new StringSetModel()),
       callPutModel(new StringSetModel())
 {
     callPutModel->addString("Call");
@@ -57,15 +58,36 @@ FormModel::FormModel(
     addField(EngineField);
     setValue(EngineField, engineModel->stringList()[0]);
 
+    // from QuantLib doxygen:
+    processModel->addString("Merton (1973) extension to the Black-Scholes"
+        " stochastic process");
+    processModel->setData(0,0, "BlackScholesMerton",
+        Wt::ItemDataRole::UserRole);
+
+    // from QuantLib doxygen:
+    processModel->addString("experimental Black-Scholes-Merton stochastic"
+        " process");
+    processModel->setData(1,0, "ExtendedBlackScholesMerton",
+        Wt::ItemDataRole::UserRole);
+
+    // from QuantLib doxygen:
+    processModel->addString("Garman-Kohlhagen (1983) stochastic"
+        " process");
+    processModel->setData(2,0, "GarmanKohlagen",
+        Wt::ItemDataRole::UserRole);
+
+    // from QuantLib doxygen:
+    processModel->addString("Black-Scholes process which supports"
+        " local vega stress tests");
+    processModel->setData(3,0, "VegaStressedBlackScholesProcess",
+        Wt::ItemDataRole::UserRole);
+
+    addField(ProcessField);
+    setValue(ProcessField, processModel->stringList()[0]);
+
     Wt::WDoubleValidator *v = new Wt::WDoubleValidator();
     v->setBottom(0);
     v->setMandatory(true);
-
-    addField(ProcessField);
-    // from QuantLib doxygen:
-    setValue(ProcessField, "Merton (1973) extension to the Black-Scholes"
-        " stochastic process");
-    setReadOnly(ProcessField, true);
 
     addField(SpotField, "Current price of the underlying stock");
     setValue(SpotField, double(90));
@@ -100,7 +122,7 @@ FormModel::FormModel(
 Wt::WString FormModel::label(Field field) const
 {
     static Wt::WString
-        engineLabel("Approximation engine:"),
+        engineLabel("Pricing engine:"),
         processLabel("Stochastic process:"),
         spotLabel("Spot:"),
         dividendLabel("Annual dividend rate:"),
@@ -151,6 +173,14 @@ void FormModel::calculate()
                     engineModel->data(
                         engineModel->index(
                             boost::any_cast<Wt::WString>(value(EngineField))
+                        ),
+                        Wt::ItemDataRole::UserRole
+                    )
+                ),
+                boost::any_cast<const char*>(
+                    processModel->data(
+                        processModel->index(
+                            boost::any_cast<Wt::WString>(value(ProcessField))
                         ),
                         Wt::ItemDataRole::UserRole
                     )

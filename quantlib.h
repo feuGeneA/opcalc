@@ -19,7 +19,16 @@ struct AmericanOptionSpec {
 };
 
 QuantLib::Real value(std::string        const& engine,
+                     std::string        const& process,
                      AmericanOptionSpec const& input);
+    /* engine must be one of "BaroneAdesiWhaley",
+     * "FDAmericanCrankNicolson",
+     * "FDDividendAmericanCrankNicolson", or
+     * "BjerksundStensland".
+     * process must be one of "BlackScholesMerton",
+     * "ExtendedBlackScholesMerton", "GarmanKohlagen", or
+     * "VegaStressedBlackScholesProcess".
+     */
 
 }
 

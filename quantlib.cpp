@@ -5,6 +5,8 @@
 #include <gtest/gtest.h>
 
 #include <ql/exercise.hpp>
+#include <ql/experimental/processes/extendedblackscholesprocess.hpp>
+#include <ql/experimental/processes/vegastressedblackscholesprocess.hpp>
 #include <ql/instruments/vanillaoption.hpp>
 #include <ql/option.hpp>
 #include <ql/pricingengines/vanilla/baroneadesiwhaleyengine.hpp>
@@ -21,6 +23,7 @@ using namespace QuantLib;
 namespace quantlib {
 
 QuantLib::Real value(std::string        const& engine,
+                     std::string        const& process,
                      AmericanOptionSpec const& input)
 {
     Date today = Date::todaysDate();
@@ -65,31 +68,62 @@ QuantLib::Real value(std::string        const& engine,
             new AmericanExercise(
                 today, today + Integer(input.timeToMaturity*360+0.5) ) );
 
-    boost::shared_ptr<BlackScholesMertonProcess> stochProcess(new
-        BlackScholesMertonProcess(
-            Handle<Quote>(spot),
-            Handle<YieldTermStructure>(dividendTermStruct),
-            Handle<YieldTermStructure>(riskFreeRateTermStruct),
-            Handle<BlackVolTermStructure>(volTS)));
+    boost::shared_ptr<GeneralizedBlackScholesProcess> pStochProcess;
+
+    if ( process == "BlackScholesMerton" )
+        pStochProcess
+            = boost::shared_ptr<GeneralizedBlackScholesProcess>(
+                new BlackScholesMertonProcess(
+                    Handle<Quote>(spot),
+                    Handle<YieldTermStructure>(dividendTermStruct),
+                    Handle<YieldTermStructure>(riskFreeRateTermStruct),
+                    Handle<BlackVolTermStructure>(volTS)));
+    else if ( process == "ExtendedBlackScholesMerton" )
+        pStochProcess
+            = boost::shared_ptr<GeneralizedBlackScholesProcess>(
+                new ExtendedBlackScholesMertonProcess(
+                    Handle<Quote>(spot),
+                    Handle<YieldTermStructure>(dividendTermStruct),
+                    Handle<YieldTermStructure>(riskFreeRateTermStruct),
+                    Handle<BlackVolTermStructure>(volTS)));
+    else if ( process == "GarmanKohlagen" )
+        pStochProcess
+            = boost::shared_ptr<GeneralizedBlackScholesProcess>(
+                new GarmanKohlagenProcess(
+                    Handle<Quote>(spot),
+                    Handle<YieldTermStructure>(dividendTermStruct),
+                    Handle<YieldTermStructure>(riskFreeRateTermStruct),
+                    Handle<BlackVolTermStructure>(volTS)));
+    else if ( process == "VegaStressedBlackScholesProcess" )
+        pStochProcess
+            = boost::shared_ptr<GeneralizedBlackScholesProcess>(
+                new VegaStressedBlackScholesProcess(
+                    Handle<Quote>(spot),
+                    Handle<YieldTermStructure>(dividendTermStruct),
+                    Handle<YieldTermStructure>(riskFreeRateTermStruct),
+                    Handle<BlackVolTermStructure>(volTS)));
+    else
+        throw std::runtime_error("Unknown stochastic process type '"
+                                 +process+"'");
 
     boost::shared_ptr<PricingEngine> pEngine;
 
     if ( engine == "BaroneAdesiWhaley" )
         pEngine =
             boost::shared_ptr<PricingEngine>(
-                new BaroneAdesiWhaleyApproximationEngine(stochProcess));
+                new BaroneAdesiWhaleyApproximationEngine(pStochProcess));
     else if ( engine == "FDAmericanCrankNicolson" )
         pEngine =
             boost::shared_ptr<PricingEngine>(
-                new FDAmericanEngine<CrankNicolson>(stochProcess));
+                new FDAmericanEngine<CrankNicolson>(pStochProcess));
     else if ( engine == "FDDividendAmericanCrankNicolson" )
         pEngine =
             boost::shared_ptr<PricingEngine>(
-                new FDDividendAmericanEngine<CrankNicolson>(stochProcess));
+                new FDDividendAmericanEngine<CrankNicolson>(pStochProcess));
     else if ( engine == "BjerksundStensland" )
         pEngine =
             boost::shared_ptr<PricingEngine>(
-                new BjerksundStenslandApproximationEngine(stochProcess));
+                new BjerksundStenslandApproximationEngine(pStochProcess));
     else
         throw std::runtime_error("Unknown engine type '"+engine+"'");
 

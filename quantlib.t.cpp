@@ -14,7 +14,10 @@ TEST(quantlib, valuesFromLiterature)
     input.volatility = 0.15;
 
     EXPECT_NEAR(0.0206,
-                quantlib::value("BaroneAdesiWhaley",input),
+                quantlib::value(
+                    "BaroneAdesiWhaley",
+                    "BlackScholesMerton",
+                    input),
                 3.0e-3);
 }
 
@@ -30,6 +33,9 @@ TEST(quantlib, valuesFromBloomberg)
     input.volatility = 0.15;
 
     EXPECT_NEAR(10.02,
-                quantlib::value("BaroneAdesiWhaley",input),
+                quantlib::value(
+                    "BaroneAdesiWhaley",
+                    "BlackScholesMerton",
+                    input),
                 2.1e-2);
 }

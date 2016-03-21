@@ -15,7 +15,6 @@
 FormView::FormView( Wt::WContainerWidget * parent )
     : WTemplateFormView(parent),
       model(new FormModel(this)),
-      processField(new Wt::WLineEdit),
             spotEdit(new Wt::WDoubleSpinBox),
         dividendEdit(new Wt::WDoubleSpinBox),
         interestEdit(new Wt::WDoubleSpinBox),
@@ -24,6 +23,7 @@ FormView::FormView( Wt::WContainerWidget * parent )
             termEdit(new Wt::WDoubleSpinBox),
           resultEdit(new Wt::WDoubleSpinBox),
          engineInput(new Wt::WComboBox),
+        processInput(new Wt::WComboBox),
         callputInput(new Wt::WComboBox)
 {
     //model = new FormModel(/*app.log("info"),*/ this);
@@ -75,8 +75,19 @@ FormView::FormView( Wt::WContainerWidget * parent )
                         engineInput->currentIndex() ] ) );
         } );
 
-    setFormWidget(FormModel::ProcessField, processField);
-    processField->setTextSize(50);
+    processInput->setModel(model->processModel);
+    processInput->setCurrentIndex(0);
+    setFormWidget(FormModel::ProcessField, processInput,
+        [=]() { // updateViewValue
+            // model never changes independent of view. no-op.
+        },
+        [=]() { // updateModelValue
+            model->setValue(
+                FormModel::ProcessField,
+                static_cast<Wt::WString>(
+                    model->processModel->stringList()[
+                        processInput->currentIndex() ] ) );
+        } );
 
     setDoubleWidget(FormModel::SpotField, spotEdit);
     setDoubleWidget(FormModel::DividendField, dividendEdit);

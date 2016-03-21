@@ -46,7 +46,7 @@ private:
 
 public:
 
-    StringSetModel *engineModel, *callPutModel;
+    StringSetModel *engineModel, *processModel, *callPutModel;
 };
 
  #endif
