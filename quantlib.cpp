@@ -22,9 +22,10 @@ using namespace QuantLib;
 
 namespace quantlib {
 
-QuantLib::Real value(std::string        const& engine,
-                     std::string        const& process,
-                     AmericanOptionSpec const& input)
+QuantLib::VanillaOption value(
+    std::string         const& engine,
+    std::string         const& process,
+    AmericanOptionInput const& input)
 {
     Date today = Date::todaysDate();
     DayCounter dc = Actual360();
@@ -129,8 +130,7 @@ QuantLib::Real value(std::string        const& engine,
 
     VanillaOption option(payoff, exercise);
     option.setPricingEngine(pEngine);
-
-    return option.NPV();
+    return option;
 }
 
 }

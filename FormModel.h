@@ -18,7 +18,12 @@ public:
           CallPutField,
            StrikeField,
              TermField,
-           ResultField;
+           ResultField,
+            DeltaField,
+            GammaField,
+            ThetaField,
+             VegaField,
+              RhoField;
 
     FormModel(Wt::WObject  * parent = 0);
 

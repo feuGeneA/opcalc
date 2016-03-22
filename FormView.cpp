@@ -59,7 +59,33 @@ FormView::FormView( Wt::WContainerWidget * parent )
         "${submit-button} ${submit-info}<br/>"
 
         "<label for=\"${id:result}\">${result-label}</label>"
-        "${result}" );
+        "${result}<br/>"
+
+        "${<if:delta>}"
+        "<label for=\"${id:delta}\">${delta-label}</label>"
+        "${delta} ${delta-info}<br/>"
+        "${</if:delta>}"
+
+        "${<if:gamma>}"
+        "<label for=\"${id:gamma}\">${gamma-label}</label>"
+        "${gamma} ${gamma-info}<br/>"
+        "${</if:gamma>}"
+
+        "${<if:theta>}"
+        "<label for=\"${id:theta}\">${theta-label}</label>"
+        "${theta} ${theta-info}<br/>"
+        "${</if:theta>}"
+
+        "${<if:vega>}"
+        "<label for=\"${id:vega}\">${vega-label}</label>"
+        "${vega} ${vega-info}<br/>"
+        "${</if:vega>}"
+
+        "${<if:rho>}"
+        "<label for=\"${id:rho}\">${rho-label}</label>"
+        "${rho} ${rho-info}<br/>"
+        "${</if:rho>}"
+        );
 
     engineInput->setModel(model->engineModel);
     engineInput->setCurrentIndex(0);
@@ -161,5 +187,36 @@ void FormView::calculate()
         }
         bindString("submit-info",validationMsg);
     }
+
+    if ( model->isVisible(FormModel::DeltaField)
+        && !resolveWidget(FormModel::DeltaField) )
+    {
+        setFormWidget(FormModel::DeltaField, new Wt::WDoubleSpinBox);
+    }
+
+    if ( model->isVisible(FormModel::GammaField)
+        && !resolveWidget(FormModel::GammaField) )
+    {
+        setFormWidget(FormModel::GammaField, new Wt::WDoubleSpinBox);
+    }
+
+    if ( model->isVisible(FormModel::ThetaField)
+        && !resolveWidget(FormModel::ThetaField) )
+    {
+        setFormWidget(FormModel::ThetaField, new Wt::WDoubleSpinBox);
+    }
+
+    if ( model->isVisible(FormModel::VegaField)
+        && !resolveWidget(FormModel::VegaField) )
+    {
+        setFormWidget(FormModel::VegaField, new Wt::WDoubleSpinBox);
+    }
+
+    if ( model->isVisible(FormModel::RhoField)
+        && !resolveWidget(FormModel::RhoField) )
+    {
+        setFormWidget(FormModel::RhoField, new Wt::WDoubleSpinBox);
+    }
+
     updateView(model);
 }

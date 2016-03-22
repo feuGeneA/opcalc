@@ -4,7 +4,7 @@
 
 TEST(quantlib, valuesFromLiterature)
 {
-    quantlib::AmericanOptionSpec input;
+    quantlib::AmericanOptionInput input;
     input.type = QuantLib::Option::Call;
     input.strike = 100;
     input.timeToMaturity = 0.10;
@@ -17,13 +17,13 @@ TEST(quantlib, valuesFromLiterature)
                 quantlib::value(
                     "BaroneAdesiWhaley",
                     "BlackScholesMerton",
-                    input),
+                    input).NPV(),
                 3.0e-3);
 }
 
 TEST(quantlib, valuesFromBloomberg)
 {
-    quantlib::AmericanOptionSpec input;
+    quantlib::AmericanOptionInput input;
     input.type = QuantLib::Option::Put;
     input.strike = 100;
     input.timeToMaturity = 0.10;
@@ -36,6 +36,6 @@ TEST(quantlib, valuesFromBloomberg)
                 quantlib::value(
                     "BaroneAdesiWhaley",
                     "BlackScholesMerton",
-                    input),
+                    input).NPV(),
                 2.1e-2);
 }

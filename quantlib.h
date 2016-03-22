@@ -1,6 +1,7 @@
 #ifndef QUANTLIB_INCLUDED_H
 #define QUANTLIB_INCLUDED_H
 
+#include <ql/instruments/vanillaoption.hpp>
 #include <ql/option.hpp>
 #include <ql/types.hpp>
 
@@ -8,7 +9,7 @@
 // symbols. lower case to differentiate.
 namespace quantlib {
 
-struct AmericanOptionSpec {
+struct AmericanOptionInput {
     QuantLib::Option::Type type;
     QuantLib::Real         strike;
     QuantLib::Real         spot;
@@ -18,9 +19,10 @@ struct AmericanOptionSpec {
     QuantLib::Volatility   volatility;
 };
 
-QuantLib::Real value(std::string        const& engine,
-                     std::string        const& process,
-                     AmericanOptionSpec const& input);
+QuantLib::VanillaOption value(
+    std::string         const& engine,
+    std::string         const& process,
+    AmericanOptionInput const& input);
     /* engine must be one of "BaroneAdesiWhaley",
      * "FDAmericanCrankNicolson",
      * "FDDividendAmericanCrankNicolson", or

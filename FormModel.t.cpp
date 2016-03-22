@@ -12,8 +12,13 @@
 TEST(FormModel, instantiation)
 {
     FormModel model(nullptr);
-    ASSERT_EQ(10, model.fields().size());
+    ASSERT_EQ(15, model.fields().size());
     ASSERT_EQ(2, model.callPutModel->stringList().size());
+    ASSERT_FALSE(model.isVisible(FormModel::DeltaField));
+    ASSERT_FALSE(model.isVisible(FormModel::GammaField));
+    ASSERT_FALSE(model.isVisible(FormModel::ThetaField));
+    ASSERT_FALSE(model.isVisible(FormModel::VegaField));
+    ASSERT_FALSE(model.isVisible(FormModel::RhoField));
 }
 
 TEST(FormModel, engineFieldSticks)
@@ -152,6 +157,10 @@ TEST(FormModel, valuesFromBloomberg)
            strike = 100,
            term = 0.1;
 
+    model.setValue(
+        FormModel::EngineField,
+        Wt::WString("Finite-differences pricing engine for American one"
+            " asset options, using Crank-Nicolson scheme"));
     model.setValue(FormModel::SpotField, double(spot));
     model.setValue(FormModel::DividendField, dividend);
     model.setValue(FormModel::InterestField, interest);
@@ -169,4 +178,61 @@ TEST(FormModel, valuesFromBloomberg)
         10.02,
         boost::any_cast<double>(model.value(FormModel::ResultField)),
         2.1e-2);
+
+    ASSERT_TRUE(model.isVisible(FormModel::DeltaField));
+    EXPECT_NEAR(
+        -0.9901,
+        boost::any_cast<double>(model.value(FormModel::DeltaField)),
+        0.05);
+
+    ASSERT_TRUE(model.isVisible(FormModel::GammaField));
+    EXPECT_NEAR(
+        0.01,
+        boost::any_cast<double>(model.value(FormModel::GammaField)),
+        0.01);
+
+    /* disabled until a field exists to select a pricing model that
+     * supports theta.
+    ASSERT_TRUE(model.isVisible(FormModel::ThetaField));
+    EXPECT_NEAR(
+        -0.03,
+        boost::any_cast<double>(model.value(FormModel::ThetaField)),
+        0.01);
+     */
+
+    /* disabled until a field exists to select a pricing model that
+     * supports vega.
+    ASSERT_TRUE(model.isVisible(FormModel::VegaField));
+    EXPECT_NEAR(
+        0.01,
+        boost::any_cast<double>(model.value(FormModel::VegaField)),
+        0.01);
+     */
+
+    /* disabled until a field exists to select a pricing model that
+     * supports rho.
+    ASSERT_TRUE(model.isVisible(FormModel::RhoField));
+    EXPECT_NEAR(
+        0.01,
+        boost::any_cast<double>(model.value(FormModel::RhoField)),
+        0.01);
+     */
+}
+
+TEST(FormModel, deltaAtMoney)
+{
+    FormModel model(NULL);
+    model.setValue(
+        FormModel::EngineField,
+        Wt::WString("Finite-differences pricing engine for American one"
+            " asset options, using Crank-Nicolson scheme"));
+    model.setValue(FormModel::SpotField,   double(90));
+    model.setValue(FormModel::StrikeField, double(90));
+    model.setValue(FormModel::CallPutField, std::string("Call"));
+    model.calculate();
+
+    EXPECT_NEAR(
+        0.5,
+        boost::any_cast<double>(model.value(FormModel::DeltaField)),
+        0.01);
 }

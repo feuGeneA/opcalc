@@ -1,7 +1,5 @@
 As a user, I want to press Enter on my keyboard to submit the form, so that I don't have to use the mouse, nor tab/space.
 
-As a user, I want to see "the greeks," the delta/theta/vega/gamma by-products of the calculation, so that I can accurately assess the appeal of the described option contract.
-
 Release version 0.1.
 
 As a developer, I want an automated test of the web page interface, so that I don't have to test it manually.  (Likely use selenium/html_unit.)
