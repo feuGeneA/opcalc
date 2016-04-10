@@ -10,6 +10,8 @@ As a user, I want to select an expiration date from a calendar widget, so that I
 
 Release version 0.2.
 
+As a user, I want to enter implied volatility, and have the calculator determine the option value from that, so that I can determine values from my own volatility opinions.
+
 As a system administrator, I don't want memory leaks. (Pointers and new's are used everywhere, modeled after the Wt examples, but there are literally zero delete's, so it seems there are memory leaks.)
 
 As a user, I don't want the help text to disappear when I submit the form, so that I can refer back to it again without refreshing the page.
