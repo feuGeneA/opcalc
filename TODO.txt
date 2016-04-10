@@ -4,15 +4,13 @@ Release version 0.1.
 
 As a developer, I want an automated test of the web page interface, so that I don't have to test it manually.  (Likely use selenium/html_unit.)
 
-As a user, I want a modern (Web 2.0+) look and feel, or at least a field-aligned visual layout. (Move HTML template, from static string in FormView::FormView()'s call to WTemplateFormView::setTemplateText(), to an external file.)
+As a user, I want a modern look and feel (>=Web 2.0), or at least a field-aligned visual layout. (Move HTML template, from static string in FormView::FormView()'s call to WTemplateFormView::setTemplateText(), to an external resource file.)
 
 As a user, I want to select an expiration date from a calendar widget, so that I don't have to manually calculate the fraction of the year from now at which the option contract will expire.
 
 Release version 0.2.
 
-As a user, I want more option valuation model choices.
-
-As a system administrator, I don't want memory leaks. (Pointers and new's are used everywhere, modeled after the Wt examples, but there are literally zero delete's, so it seems there are memory leaks. Valgraind )
+As a system administrator, I don't want memory leaks. (Pointers and new's are used everywhere, modeled after the Wt examples, but there are literally zero delete's, so it seems there are memory leaks.)
 
 As a user, I don't want the help text to disappear when I submit the form, so that I can refer back to it again without refreshing the page.
 

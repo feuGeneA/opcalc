@@ -2,31 +2,29 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <gtest/gtest.h>
-
 #include <ql/exercise.hpp>
 #include <ql/experimental/processes/extendedblackscholesprocess.hpp>
 #include <ql/experimental/processes/vegastressedblackscholesprocess.hpp>
 #include <ql/instruments/vanillaoption.hpp>
-#include <ql/option.hpp>
 #include <ql/pricingengines/vanilla/baroneadesiwhaleyengine.hpp>
 #include <ql/pricingengines/vanilla/bjerksundstenslandengine.hpp>
 #include <ql/pricingengines/vanilla/fdamericanengine.hpp>
 #include <ql/pricingengines/vanilla/fddividendamericanengine.hpp>
-#include <ql/termstructures/yield/flatforward.hpp>
 #include <ql/termstructures/volatility/equityfx/blackconstantvol.hpp>
-#include <ql/time/daycounters/actual360.hpp>
+#include <ql/termstructures/yield/flatforward.hpp>
 #include <ql/time/calendars/nullcalendar.hpp>
+#include <ql/time/daycounters/actual360.hpp>
 
-using namespace QuantLib;
-
+namespace opcalc   {
 namespace quantlib {
 
 QuantLib::VanillaOption value(
-    std::string         const& engine,
-    std::string         const& process,
-    AmericanOptionInput const& input)
+    std::string const& engine,
+    std::string const& process,
+    OptionInput const& input)
 {
+    using namespace QuantLib;
+
     Date today = Date::todaysDate();
     DayCounter dc = Actual360();
 
@@ -133,4 +131,4 @@ QuantLib::VanillaOption value(
     return option;
 }
 
-}
+}}

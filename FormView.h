@@ -8,10 +8,12 @@ namespace Wt { class WComboBox;
                class WContainerWidget;
                class WDoubleSpinBox; }
 
+namespace opcalc {
+
 class FormView : public Wt::WTemplateFormView
 {
 public:
-    FormView(Wt::WContainerWidget  * parent = 0);
+    FormView(Wt::WContainerWidget * parent = 0);
     void calculate();
 private:
     FormModel * model;
@@ -23,5 +25,7 @@ private:
 
     void setDoubleWidget(Wt::WFormModel::Field, Wt::WDoubleSpinBox*);
 };
+
+}
 
 #endif

@@ -5,53 +5,38 @@
 #include <Wt/WString>
 #include <Wt/WStringListModel>
 
+namespace opcalc {
+
+class StringSetModel;
+
 class FormModel : public Wt::WFormModel
 {
 public:
-    static const Field
-           EngineField,
-          ProcessField,
-             SpotField,
-         DividendField,
-         InterestField,
-       VolatilityField,
-          CallPutField,
-           StrikeField,
-             TermField,
-           ResultField,
-            DeltaField,
-            GammaField,
-            ThetaField,
-             VegaField,
-              RhoField;
+    static const Field EngineField,
+                      ProcessField,
+                         SpotField,
+                     DividendField,
+                     InterestField,
+                   VolatilityField,
+                      CallPutField,
+                       StrikeField,
+                         TermField,
+                       ResultField,
+                        DeltaField,
+                        GammaField,
+                        ThetaField,
+                         VegaField,
+                          RhoField;
 
-    FormModel(Wt::WObject  * parent = 0);
+    FormModel(Wt::WObject * parent = 0);
 
     Wt::WString label(Field field) const;
 
     void calculate();
 
-private:
-    class StringSetModel : public Wt::WStringListModel
-    {
-    public:
-        Wt::WModelIndex index(Wt::WString target) const
-        {
-            std::vector<Wt::WString>::const_iterator
-                pTarget = std::find(stringList().begin(),
-                                    stringList().end  (), target);
-
-            if ( pTarget == stringList().end() )
-                return Wt::WModelIndex(); // invalid index
-
-            return createIndex(
-                std::distance(stringList().begin(), pTarget),0,(void*)0);
-        }
-    };
-
-public:
-
     StringSetModel *engineModel, *processModel, *callPutModel;
 };
 
- #endif
+}
+
+#endif

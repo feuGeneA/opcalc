@@ -1,4 +1,4 @@
-#include <iostream> // TODO: delete me
+#include "FormView.h"
 
 #include <gtest/gtest.h>
 
@@ -8,8 +8,6 @@
 #include <Wt/WContainerWidget>
 #include <Wt/WDoubleSpinBox>
 
-#include "FormView.h"
-
 class FormViewFixture : public ::testing::Test
 {
 public:
@@ -17,6 +15,11 @@ public:
     Wt::WApplication app;
     FormViewFixture() :app(env) {}
 };
+
+namespace {
+    using opcalc::FormView;
+    using opcalc::FormModel;
+}
 
 TEST_F(FormViewFixture, instantiation)
 {
@@ -107,18 +110,18 @@ TEST_F(FormViewFixture, callPutFieldSticks)
 
     dynamic_cast<Wt::WComboBox*>(
         formView.resolveWidget(FormModel::CallPutField)
-        )->setValueText(std::string("Call"));
+        )->setValueText(std::string("Put"));
     EXPECT_EQ(
-        std::string("Call"),
+        std::string("Put"),
         dynamic_cast<Wt::WComboBox*>(
             formView.resolveWidget(FormModel::CallPutField)
             )->valueText() );
 
     dynamic_cast<Wt::WComboBox*>(
         formView.resolveWidget(FormModel::CallPutField)
-        )->setValueText(std::string("Put"));
+        )->setValueText(std::string("Call"));
     EXPECT_EQ(
-        std::string("Put"),
+        std::string("Call"),
         dynamic_cast<Wt::WComboBox*>(
             formView.resolveWidget(FormModel::CallPutField)
             )->valueText() );
@@ -144,38 +147,31 @@ TEST_F(FormViewFixture, engineFieldSticks)
 
 TEST_F(FormViewFixture, valuesFromLiterature)
 {
-    double spot = 90,
-           dividend = 0.1,
-           interest = 0.1,
-           volatility = 0.15,
-           strike = 100,
-           term = 0.1;
-
     FormView formView(nullptr);
 
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::SpotField)
-        )->setValue(spot);
+        )->setValue(90);
 
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::DividendField)
-        )->setValue(dividend);
+        )->setValue(0.1);
 
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::InterestField)
-        )->setValue(interest);
+        )->setValue(0.1);
 
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::VolatilityField)
-        )->setValue(volatility);
+        )->setValue(0.15);
 
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::StrikeField)
-        )->setValue(strike);
+        )->setValue(100);
 
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::TermField)
-        )->setValue(term);
+        )->setValue(0.1);
 
     dynamic_cast<Wt::WComboBox*>(
         formView.resolveWidget(FormModel::CallPutField)
@@ -199,33 +195,32 @@ TEST_F(FormViewFixture, valuesFromLiterature)
 
 TEST_F(FormViewFixture, valuesFromBloomberg)
 {
-    double spot = 90,
-           dividend = 0.1,
-           interest = 0.1,
-           volatility = 0.15,
-           strike = 100,
-           term = 0.1;
-    
     FormView formView(nullptr);
 
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::SpotField)
-        )->setValue(spot);
+        )->setValue(90);
+
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::DividendField)
-        )->setValue(dividend);
+        )->setValue(0.1);
+
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::InterestField)
-        )->setValue(interest);
+        )->setValue(0.1);
+
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::VolatilityField)
-        )->setValue(volatility);
+        )->setValue(0.15);
+
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::StrikeField)
-        )->setValue(strike);
+        )->setValue(100);
+
     dynamic_cast<Wt::WDoubleSpinBox*>(
         formView.resolveWidget(FormModel::TermField)
-        )->setValue(term);
+        )->setValue(0.1);
+
     dynamic_cast<Wt::WComboBox*>(
         formView.resolveWidget(FormModel::CallPutField)
         )->setValueText(std::string("Put"));

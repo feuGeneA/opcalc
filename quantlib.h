@@ -5,33 +5,35 @@
 #include <ql/option.hpp>
 #include <ql/types.hpp>
 
+namespace opcalc {
+
 // namespace to contain our abstractions to encapsulate the QuantLib
 // symbols. lower case to differentiate.
 namespace quantlib {
 
-struct AmericanOptionInput {
+struct OptionInput {
     QuantLib::Option::Type type;
     QuantLib::Real         strike;
     QuantLib::Real         spot;
-    QuantLib::Rate         dividend;
-    QuantLib::Rate         riskFreeRate;
-    QuantLib::Time         timeToMaturity;
-    QuantLib::Volatility   volatility;
+    QuantLib::Rate         dividend;       // annual. [0,1]
+    QuantLib::Rate         riskFreeRate;   // annual. [0,1]
+    QuantLib::Time         timeToMaturity; // fraction of year. [0,1]
+    QuantLib::Volatility   volatility;     // annual. [0,1]
 };
 
 QuantLib::VanillaOption value(
-    std::string         const& engine,
-    std::string         const& process,
-    AmericanOptionInput const& input);
-    /* engine must be one of "BaroneAdesiWhaley",
-     * "FDAmericanCrankNicolson",
-     * "FDDividendAmericanCrankNicolson", or
-     * "BjerksundStensland".
-     * process must be one of "BlackScholesMerton",
-     * "ExtendedBlackScholesMerton", "GarmanKohlagen", or
-     * "VegaStressedBlackScholesProcess".
-     */
+    std::string const& engine,
+    std::string const& process,
+    OptionInput const& input);
+    /*
+     * engine must be one of "BaroneAdesiWhaley", "BjerksundStensland",
+     * "FDAmericanCrankNicolson", "FDDividendAmericanCrankNicolson".
+     *
+     * process must be one of "BlackScholesMerton", "GarmanKohlagen",
+     * "ExtendedBlackScholesMerton", or "VegaStressedBlackScholesProcess".
+     *
+     * For further descriptions, see QuantLib doxygen. */
 
-}
+}}
 
 #endif

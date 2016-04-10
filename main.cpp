@@ -3,10 +3,12 @@
 
 #include "FormView.h"
 
-class OpCalcApplication : public Wt::WApplication
+namespace opcalc {
+
+class Application : public Wt::WApplication
 {
 public:
-    OpCalcApplication(Wt::WEnvironment const& env)
+    Application(Wt::WEnvironment const& env)
         : Wt::WApplication(env)
     {
         using namespace Wt;
@@ -18,19 +20,23 @@ public:
         wtTitle = new WText(root());
         wtTitle->setText(title);
 
-        FormView * view = new FormView(root());
+        new FormView(root());
     }
 
 private:
     Wt::WText *wtTitle;
 };
 
-Wt::WApplication* createApplication(Wt::WEnvironment const& env)
-{
-    return new OpCalcApplication(env);
+}
+
+namespace {
+    Wt::WApplication* createApplication(Wt::WEnvironment const& env)
+    {
+        return new opcalc::Application(env);
+    }
 }
 
 int main(int argc, char **argv)
 {
-    return Wt::WRun(argc, argv, &createApplication);;
+    return Wt::WRun(argc, argv, &createApplication);
 }

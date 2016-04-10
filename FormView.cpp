@@ -1,7 +1,5 @@
 #include "FormView.h"
 
-#include <iostream> // TODO: delete me
-
 #include <Wt/WApplication>
 #include <Wt/WComboBox>
 #include <Wt/WContainerWidget>
@@ -11,10 +9,13 @@
 #include <Wt/WStringListModel>
 
 #include "FormModel.h"
+#include "StringSetModel.h"
+
+namespace opcalc {
 
 FormView::FormView( Wt::WContainerWidget * parent )
     : WTemplateFormView(parent),
-      model(new FormModel(this)),
+               model(new FormModel(this)),
             spotEdit(new Wt::WDoubleSpinBox),
         dividendEdit(new Wt::WDoubleSpinBox),
         interestEdit(new Wt::WDoubleSpinBox),
@@ -26,8 +27,6 @@ FormView::FormView( Wt::WContainerWidget * parent )
         processInput(new Wt::WComboBox),
         callputInput(new Wt::WComboBox)
 {
-    //model = new FormModel(/*app.log("info"),*/ this);
-
     setTemplateText(
         "<label for=\"${id:engine}\">${engine-label}</label>"
         "${engine} ${engine-info}<br/>"
@@ -115,12 +114,12 @@ FormView::FormView( Wt::WContainerWidget * parent )
                         processInput->currentIndex() ] ) );
         } );
 
-    setDoubleWidget(FormModel::SpotField, spotEdit);
-    setDoubleWidget(FormModel::DividendField, dividendEdit);
-    setDoubleWidget(FormModel::InterestField, interestEdit);
+    setDoubleWidget(FormModel::      SpotField,       spotEdit);
+    setDoubleWidget(FormModel::  DividendField,   dividendEdit);
+    setDoubleWidget(FormModel::  InterestField,   interestEdit);
     setDoubleWidget(FormModel::VolatilityField, volatilityEdit);
-    setDoubleWidget(FormModel::StrikeField, strikeEdit);
-    setDoubleWidget(FormModel::TermField, termEdit);
+    setDoubleWidget(FormModel::    StrikeField,     strikeEdit);
+    setDoubleWidget(FormModel::      TermField,       termEdit);
 
     setFormWidget(FormModel::ResultField, resultEdit);
 
@@ -162,9 +161,6 @@ void FormView::setDoubleWidget(
         [=] {
             model->setValue(field, widget->value());
         });
-    // callbacks without c++11:
-    //boost::bind(&FormView::updateViewValue_strike, this),
-    //boost::bind(&FormView::updateModelValue_strike, this));
 }
 
 void FormView::calculate()
@@ -219,4 +215,6 @@ void FormView::calculate()
     }
 
     updateView(model);
+}
+
 }
