@@ -82,10 +82,10 @@ FormModel::FormModel(
     v->setBottom(0);
     v->setMandatory(true);
 
-    addField(SpotField, "Current price of the underlying stock");
+    addField(SpotField, "Current price of the underlying asset");
     setValue(SpotField, double(90));
 
-    addField(DividendField, "Annual rate of dividend payout for the stock; for"
+    addField(DividendField, "Annual rate of dividend payout for the asset; for"
         " 1% enter 0.01");
     setValue(DividendField, double(0.1));
 
@@ -94,7 +94,7 @@ FormModel::FormModel(
     setValue(InterestField, double(0.1));
 
     addField(VolatilityField, "Volatility of the price of the underlying"
-        " stock; for 1% enter 0.01");
+        " asset; for 1% enter 0.01");
     setValue(VolatilityField, double(0.15));
 
     callPutModel->addString("Call");
@@ -116,7 +116,7 @@ FormModel::FormModel(
     setValue(ResultField, double());
 
     addField(DeltaField, "Expected % change in option price for each % change"
-        " in stock price");
+        " in asset price");
     setReadOnly(DeltaField, true);
     setVisible(DeltaField, false);
 
@@ -128,7 +128,7 @@ FormModel::FormModel(
     setReadOnly(ThetaField, true);
     setVisible(ThetaField, false);
 
-    addField(VegaField, "Sensitivity to volatility of underlying stock");
+    addField(VegaField, "Sensitivity to volatility of underlying asset");
     setReadOnly(VegaField, true);
     setVisible(VegaField, false);
 
