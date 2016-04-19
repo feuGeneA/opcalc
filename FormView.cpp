@@ -142,6 +142,7 @@ FormView::FormView( Wt::WContainerWidget * parent )
     bindWidget("submit-button", submitButton);
     bindString("submit-info", Wt::WString());
     submitButton->clicked().connect(this, &FormView::calculate);
+    enterPressed().connect(this, &FormView::calculate);
 
     updateView(model);
 }
